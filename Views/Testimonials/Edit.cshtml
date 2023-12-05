@@ -1,0 +1,34 @@
+﻿@model Project.Models.Testimonial
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1>Edit</h1>
+
+<h4>Testimonial</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="CustomerId" />
+            <input type="hidden" asp-for="TestimonialsText" />
+            <div class="form-group">
+                <label asp-for="TestimonialsStatus" class="control-label"></label>
+                <select asp-for="TestimonialsStatus" asp-items="new SelectList(ViewBag.TestimonialStatusOptions)" class="form-control"></select>
+                <span asp-validation-for="TestimonialsStatus" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-secondary" />
+            </div>
+        </form>
+    </div>
+</div>
+<div>
+    <a asp-action="Index" style="color:gray; text-decoration:underline;">Back to List</a>
+</div>
+
+

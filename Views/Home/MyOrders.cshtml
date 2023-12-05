@@ -1,0 +1,255 @@
+﻿@model IEnumerable<OrdersJoin>
+
+@{
+    ViewData["Title"] = "My Orders";
+    Layout = "~/Views/Shared/_ProjectLayout.cshtml";
+    var userId = ViewBag.userId;
+}
+<head>
+    <style>
+        #center{
+            text-align: center;
+        }
+    </style>
+</head>
+<div class="container">
+    <section class="py-5 bg-light" style="margin-top: 40px; margin-bottom: 40px">
+        <div class="container">
+            <div class="row px-4 px-lg-5 py-lg-4 ">
+                <div class="col-lg-6">
+                    <h1 class="h2 text-uppercase mb-0">My Orders</h1>
+                </div>
+                <div class="col-lg-6 text-lg-end">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb justify-content-lg-end mb-0 px-0 bg-light">
+                            <li class="breadcrumb-item"><a class="text-dark" asp-controller="Home" asp-action="Index">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">My Orders</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    @if (!Model.Any())
+    {
+        <section class="py-5 bg-light" style="text-align: center; height: 250px; margin-bottom: 30px;">
+            <div class="container">
+                <h5 style="padding-top: 65px">
+                    You don't have any orders
+                </h5>
+            </div>
+        </section>
+    }
+    else
+    {
+                @foreach (var order in Model)
+                {
+
+
+            <div class="container" id="center">
+
+                <div class="row align-items-center">
+
+                    <section class="py-5">
+                        <div class="container bg-light  table-responsive" style="padding-top: 30px; padding-bottom: 20px; border: 0.3px solid #827f7f;">
+                            <h2 class="h5 text-uppercase mb-4">Order Summary</h2>
+                            <table class="table text-nowrap ">
+                                <thead  style="background-color: black; color:white;">
+                            <tr>
+                                <th class="border-0 p-3" scope="col"><strong class="text-sm text-uppercase">Order Number</strong></th>
+                                <th class="border-0 p-3" scope="col"><strong class="text-sm text-uppercase">Order Date</strong></th>
+                                <th class="border-0 p-3" scope="col"><strong class="text-sm text-uppercase">Order Total Price</strong></th>
+                                <th class="border-0 p-3" scope="col"><strong class="text-sm text-uppercase">Total Number of Products</strong></th>
+                                <th class="border-0 p-3" scope="col"><strong class="text-sm text-uppercase">Order Status</strong></th>
+                            </tr>
+                        </thead>
+                                <tbody class="border-0 table-sm" style="font-size: 18px!important">
+                            <tr>
+                                <td class="p-3 align-middle border-light">
+                                    <p class="mb-0 small">@order.Order.Id</p>
+                                </td>
+                                <td class="p-3 align-middle border-light">
+                                    <p class="mb-0 small">@order.Order.OrderDate</p>
+                                </td>
+                                <td class="p-3 align-middle border-light">
+                                    <p class="mb-0 small">@String.Format("{0:N}",order.Order.TotalPrice) JOD</p>
+                                </td>
+                                <td class="p-3 align-middle border-light">
+                                    <p class="mb-0 small">@order.Order.Quantity</p>
+                                </td>
+                                <td class="p-3 align-middle border-light">
+                                            @if(order.Order.OrderStatus == "PENDING")
+                                            {
+                                                <p class="mb-0 small" style="color: red; font-weight: 600">@order.Order.OrderStatus</p>
+                                            }
+                                            else if (order.Order.OrderStatus == "PROCESSING")
+                                            {
+                                                <p class="mb-0 small" style="color: blue; font-weight: 600">@order.Order.OrderStatus</p>
+                                            }
+                                            else if (order.Order.OrderStatus == "IN TRANSIT")
+                                            {
+                                                <p class="mb-0 small" style="color: darkgray; font-weight: 600">@order.Order.OrderStatus</p>
+                                            }
+                                            else if (order.Order.OrderStatus == "DELIVERED")
+                                            {
+                                                <p class="mb-0 small" style="color: green; font-weight: 600">@order.Order.OrderStatus</p>
+                                            }
+                                            
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <hr/>
+                    <h2 class="h5 text-uppercase mb-4">Contact Address</h2>
+                    <table class="table text-nowrap">
+                                <thead style="background-color: black; color:white;">
+                            <tr>
+                                <th class="border-0 p-3" scope="col"><strong class="text-sm text-uppercase">First Name</strong></th>
+                                <th class="border-0 p-3" scope="col"><strong class="text-sm text-uppercase">Last Name</strong></th>
+                                <th class="border-0 p-3" scope="col"><strong class="text-sm text-uppercase">Email</strong></th>
+                                <th class="border-0 p-3" scope="col"><strong class="text-sm text-uppercase">Phone Number</strong></th>
+                                <th class="border-0 p-3" scope="col"><strong class="text-sm text-uppercase">City</strong></th>
+                                <th class="border-0 p-3" scope="col"><strong class="text-sm text-uppercase">Street Address</strong></th>
+                            </tr>
+                        </thead>
+                                <tbody class="border-0" style="font-size: 18px!important">
+                            <tr>
+                                <td class="p-3 align-middle border-light">
+                                    <p class="mb-0 small">@order.Address?.FirstName</p>
+                                </td>
+                                <td class="p-3 align-middle border-light">
+                                    <p class="mb-0 small">@order.Address?.LastName</p>
+                                </td>
+                                <td class="p-3 align-middle border-light">
+                                    <p class="mb-0 small">@order.Address?.Email</p>
+                                </td>
+                                <td class="p-3 align-middle border-light">
+                                    <p class="mb-0 small">@order.Address?.PhoneNumber</p>
+                                </td>
+                                <td class="p-3 align-middle border-light">
+                                    <p class="mb-0 small">@order.Address?.City</p>
+                                </td>
+                                <td class="p-3 align-middle border-light">
+                                    <p class="mb-0 small">@order.Address?.StreetAddress</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <hr/>
+                         <h2 class="h5 text-uppercase mb-4">Order Products</h2>
+                         <table class="table text-nowrap">
+                                <thead style="background-color: black; color:white;">
+                                    <tr>
+                                        <th class="border-0 p-3" scope="col"><strong class="text-sm text-uppercase">Product</strong></th>
+                                        <th class="border-0 p-3" scope="col"><strong class="text-sm text-uppercase">Price</strong></th>
+                                        <th class="border-0 p-3" scope="col"><strong class="text-sm text-uppercase">Quantity</strong></th>
+
+                                        <th class="border-0 p-3" scope="col"><strong class="text-sm text-uppercase">Your Review</strong></th>
+
+
+                                    </tr>
+                                </thead>
+
+                            @foreach (var product in order.Products)
+                            {
+                                <tbody class="border-0">
+                                        <tr>
+                                            <td class="ps-0  py-3 border-light " scope="row">
+                                                <div class="d-flex align-items-center">
+                                            <a asp-action="ProductDetails" asp-route-id="@product.Id">
+                                                <img src="@Url.Content("~/Images/" + product.ImagePath)" asp-append-version="true" height="150px" width="150px" />
+                                            </a>
+                                                    <div class="ms-3"><strong class="h6">@product.Name</strong></div>
+                                        </div>
+                                    </td>
+                                            <td class="p-3 align-middle border-light">
+                                        <p class="mb-0 small">
+                                            @String.Format("{0:N}", order.OrderInfo.FirstOrDefault(oi => oi.ProductId == product.Id)?.Quantity * product.Price) JOD
+                                        </p>
+                                    </td>
+                                            <td class="p-3 align-middle border-light">
+                                        <p class="mb-0 small">@order.OrderInfo.FirstOrDefault(oi => oi.ProductId == product.Id)?.Quantity</p>
+                                    </td>
+                                
+                                    @if (order.Order.OrderStatus == "DELIVERED")
+                                    {
+                                            var existingReview = order.GetUserReviewForProduct(Convert.ToDecimal(product.Id), userId, order.Order.Id);
+
+
+                                        @if (existingReview != null)
+                                        {
+                                            <td class="p-3 align-middle border-light">
+                                                @if(existingReview.Stars != null)
+                                                {
+                                                    @for (decimal i = 1; i <= existingReview.Stars; i++)
+                                                    {
+                                                        <div class="star-form d-inline"><i class="fas fa-star stars" style="color: goldenrod!important;"></i></div>
+                                                    }
+                                                    @for (decimal i = existingReview.Stars + 1; i <= 5; i++)
+                                                    {
+                                                        <div class="star-form d-inline"><i class="fas fa-star stars"></i></div>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    @for (int i =  1; i <= 5; i++)
+                                                    {
+                                                        <div class="star-form d-inline"><i class="fas fa-star stars"></i></div>
+                                                    }
+                                                }
+                                                <h5 class="mb-0" style="margin-top: 10px;" scope="col" >@existingReview.ReviewText</h5>
+                                            </td>
+                                        }
+
+                                                else
+                                                {
+                                                    <td class="p-3 align-middle border-light">
+                                                        <form action="Reviews" method="post">
+                                                            <div id="ratingDiv">
+                                                                <div class="star d-inline" id="1" onclick="setRating(1)"><i class="fas fa-star stars"></i></div>
+                                                                <div class="star d-inline" id="2" onclick="setRating(2)"><i class="fas fa-star stars"></i></div>
+                                                                <div class="star d-inline" id="3" onclick="setRating(3)"><i class="fas fa-star stars"></i></div>
+                                                                <div class="star d-inline" id="4" onclick="setRating(4)"><i class="fas fa-star stars"></i></div>
+                                                                <div class="star d-inline" id="5" onclick="setRating(5)"><i class="fas fa-star stars"></i></div>
+                                                            </div>
+                                                            <br>
+                                                            
+                                                            <input type="hidden" name="id" value="@product.Id" />
+                                                            <div class="row gy-3">
+                                                                <div class="col-lg-12">
+                                                            <input class="form-control form-control-lg" style="border-radius: 40px;" type="text" name="reviewText" placeholder="Enter your review here" />
+                                                                </div>
+                                                            </div>
+                                                            <input type="hidden" id="stars" name="starsRating" value="" min="1">
+                                                            <input type="hidden" id="stars" name="order" value=@order.Order.Id min="1">
+                                                            <div class="col-lg-12 form group" style="margin-top: 10px;">
+                                                                <button class="btn" style="border-radius: 40px; background-color:black; color:white;" type="submit">Save My Review</button>
+                                                            </div>
+                                                        </form>
+                                                        <script>
+                                                            function setRating(rating) {
+                                                                document.getElementById("stars").value = rating;
+                                                            }
+                                                        </script>
+                                                       
+                                                    </td>
+                                                }
+                                               
+                                    }
+                                   
+                                </tr>
+                                        
+                                    </tbody>
+                        }
+                        
+                    </table>
+                    </div>
+                    </section>
+                    </div>
+                    </div>
+                    
+                }
+        
+    }
+</div>

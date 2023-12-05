@@ -1,0 +1,331 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Dashboard</title>
+</head>
+<body>
+		<div class="content">
+			<h3 style="color:#464443; font-weight:bolder;">
+				Dashboard
+			</h3>
+			<hr style="height: 5px;" />
+				<div class="row">
+				
+					<div class="col-md-4 ">
+						<div class="card card-stats card-warning">
+					<div class="card-body " style="background-color:#313866">
+								<div class="row">
+									<div class="col-5">
+										<div class="icon-big text-center">
+											<i class="la la-users"></i>
+										</div>
+									</div>
+									<div class="col-7 d-flex align-items-center">
+									<a asp-controller="Customers" asp-action="Index" onmouseover="this.style.textDecoration = 'none';">
+										<div class="numbers">
+											<p class="card-category">Users</p>
+										<h4 class="card-title">@ViewBag.users.Count</h4>
+										</div>
+									</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				
+					<div class="col-md-4">
+						<div class="card card-stats card-success">
+					<div class="card-body" style="background-color:#504099">
+								<div class="row">
+									<div class="col-5">
+										<div class="icon-big text-center">
+										<i class="la la-cart-arrow-down"></i>
+										</div>
+									</div>
+									<div class="col-7 d-flex align-items-center">
+										<a asp-controller="ProductCustomers" asp-action="Index" onmouseover="this.style.textDecoration = 'none';">
+										<div class="numbers">
+											<p class="card-category">Orders</p>
+										<h4 class="card-title">@ViewBag.orders.Count</h4>
+										</div>
+										</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="card card-stats card-danger">
+					<div class="card-body" style="background-color:#82A0D8">
+								<div class="row">
+									<div class="col-5">
+										<div class="icon-big text-center">
+										<i class="la la-dollar"></i>
+										</div>
+									</div>
+									<div class="col-7 d-flex align-items-center">
+										<div class="numbers">
+											<p class="card-category">Sales</p>
+										@{
+											decimal sales = 0;
+											foreach (var order in ViewBag.orders)
+											{
+												sales += order.TotalPrice;
+											}
+										}
+										<h4 class="card-title">@String.Format("{0:N}",sales) JOD</h4>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-3">
+						<div class="card card-stats card-primary">
+					<div class="card-body" style="background-color:#93B1A6">
+								<div class="row">
+									<div class="col-5">
+										<div class="icon-big text-center">
+										<i class="la la-comments"></i>
+										</div>
+									</div>
+									<div class="col-7 d-flex align-items-center">
+										<a asp-controller="Reviews" asp-action="Index" onmouseover="this.style.textDecoration = 'none';">
+										<div class="numbers">
+											<p class="card-category">Feedback</p>
+										<h4 class="card-title">@ViewBag.reviews.Count</h4>
+										</div>
+									</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				<div class="col-md-3">
+					<div class="card card-stats card-primary">
+					<div class="card-body" style="background-color:#64CCC5">
+							<div class="row">
+								<div class="col-5">
+									<div class="icon-big text-center">
+										<i class="la la-search-minus"></i>
+									</div>
+								</div>
+								<div class="col-7 d-flex align-items-center">
+									<div class="numbers">
+										<p class="card-category">Min Price</p>
+										<h4 class="card-title">@ViewBag.minPrice</h4>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="card card-stats card-primary">
+					<div class="card-body" style="background-color:#176B87">
+							<div class="row">
+								<div class="col-5">
+									<div class="icon-big text-center">
+										<i class="la la-search-plus"></i>
+									</div>
+								</div>
+								<div class="col-7 d-flex align-items-center">
+									<div class="numbers">
+										<p class="card-category">Max Price</p>
+										<h4 class="card-title">@ViewBag.maxPrice</h4>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="card card-stats card-primary">
+					<div class="card-body" style="background-color:#04364A">
+							<div class="row">
+								<div class="col-5">
+									<div class="icon-big text-center">
+										<i class="la la-archive"></i>
+									</div>
+								</div>
+								<div class="col-7 d-flex align-items-center">
+									<a asp-controller="Products" asp-action="Index" onmouseover="this.style.textDecoration = 'none';">
+									<div class="numbers">
+										<p class="card-category">Products</p>
+										<h4 class="card-title">@ViewBag.products.Count</h4>
+									</div>
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="card card-stats card-primary">
+					<div class="card-body" style="background-color:#557C55">
+							<div class="row">
+								<div class="col-5">
+									<div class="icon-big text-center">
+										%
+									</div>
+								</div>
+								<div class="col-7 d-flex align-items-center">
+									<a asp-controller="Coupons" asp-action="Index" onmouseover="this.style.textDecoration = 'none';">
+									<div class="numbers">
+										<p class="card-category">Coupons</p>
+										<h4 class="card-title">@ViewBag.coupons.Count</h4>
+									</div>
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="card card-stats card-primary">
+					<div class="card-body" style="background-color:#A6CF98">
+							<div class="row">
+								<div class="col-5">
+									<div class="icon-big text-center">
+										<i class="la la-comment"></i>
+									</div>
+								</div>
+								<div class="col-7 d-flex align-items-center">
+									<a asp-controller="Testimonials" asp-action="Index" onmouseover="this.style.textDecoration = 'none';">
+										<div class="numbers">
+											<p class="card-category">Testimonials</p>
+											<h4 class="card-title">@ViewBag.testimonials.Count</h4>
+										</div>
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				
+				</div>
+			<div class="col-md-4">
+				<div class="card card-stats card-primary">
+					<div class="card-body" style="background-color:#B0D9B1">
+						<div class="row">
+							<div class="col-5">
+								<div class="icon-big text-center">
+									<i class="la la-star"></i>
+								</div>
+							</div>
+							<div class="col-7 d-flex align-items-center">
+								<a asp-controller="Revies" asp-action="Index" onmouseover="this.style.textDecoration = 'none';">
+									<div class="numbers">
+										<p class="card-category">Reviews Avarage</p>
+										<h4 class="card-title">
+											@string.Format("{0:0.00} / 5", ViewBag.reviewsAvg)
+
+										</h4>
+									</div>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+				</div>
+		<h3 style="color:#464443; font-weight:bolder;">
+			Orders Summary
+		</h3>
+		<hr style="height: 5px;" />
+			<div class="row" >
+				<div class="col-md-12 col-lg-12">
+					<div class="card" style="height: 150px; padding: 10px">
+						<div class="card-header">
+							<h4 class="card-title">Orders</h4>
+							<h5 class="card-category">Delivered @ViewBag.deliveredOrders Out Of @ViewBag.totalOrders</h5>
+						</div>
+						<div class="progress" style="height: 40px;">
+						<div class="progress-bar bg-secondary"role="progressbar" style="width: @ViewBag.NumberOfDeliveredOrders%; aria-valuenow=@ViewBag.NumberOfDeliveredOrders; aria-valuemin="0" aria-valuemax="100">@ViewBag.NumberOfDeliveredOrders%</div>
+						</div>
+					</div>
+				</div>
+			
+
+			</div>
+		<hr style="height: 5px;" />
+
+			<div class="row">
+				<div class="col-md-6 col-lg-6">
+					<h5 style="color:#464443;font-weight:bolder;">
+						Orders/City
+					</h5>
+				<hr style="height: 5px;" />
+				<canvas id="orderChart"  height="250"></canvas>
+					
+				</div>
+			
+				<div class="col-md-5 col-lg-5 offset-lg-1">
+
+					<h5 style="color:#464443; font-weight:bolder;">
+						Orders/Status
+					</h5>
+				<hr style="height: 5px;" />
+								<canvas id="orderStatusChart"></canvas>
+					
+						
+				</div>
+			</div>
+
+
+		</div>
+		<footer class="footer">
+			<div class="container-fluid">
+				<nav class="pull-left">
+					<ul class="nav">
+						<li class="nav-item">
+							<a class="nav-link" href="http://www.themekita.com">
+								ThemeKita
+							</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="#">
+								Help
+							</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="https://themewagon.com/license/#free-item">
+								Licenses
+							</a>
+						</li>
+					</ul>
+				</nav>
+				<div class="copyright ml-auto">
+					2018, made with <i class="la la-heart heart text-danger"></i> by <a href="http://www.themekita.com">ThemeKita</a>
+				</div>
+			</div>
+		</footer>
+	
+	@*<script>
+		var options = {
+			chart: {
+				height: 350,
+				type: "pie",
+			},
+			dataLabels: {
+				enabled: false
+			},
+			series: [44, 55, 13, 33]
+		}
+		var chart = new ApexCharts(
+			document.querySelector("#apexcharts-pie"),
+			options
+		);
+		chart.render();
+	</script>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+*@
+</body>
+</html>

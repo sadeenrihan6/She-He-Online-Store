@@ -1,0 +1,50 @@
+﻿@model IEnumerable<Category>
+@{
+    ViewData["Title"] = "ChildCategories";
+    Layout = "~/Views/Shared/_ProjectLayout.cshtml";
+}
+
+
+
+<div class="container">
+    <section class="py-5 bg-light" style="margin-top:40px;">
+        <div class="container">
+            <div class="row px-4 px-lg-5 py-lg-4 align-items-center">
+                <div class="col-lg-6">
+                    <h1 class="h2 text-uppercase mb-0">Sub Categories</h1>
+                </div>
+                <div class="col-lg-6 text-lg-end">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb justify-content-lg-end mb-0 px-0 bg-light">
+                            <li class="breadcrumb-item"><a class="text-dark" asp-controller="Home" asp-action="Index">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Sub Categories</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="row">
+        <section class="pt-5" style="margin:0px 0px 40px 0px">
+            <header class="text-center">
+                <p class="small text-muted small text-uppercase mb-1">Carefully created collections</p>
+                <h2 class="h5 text-uppercase mb-4">Browse our categories</h2>
+            </header>
+            <div class="row">
+                @foreach (var item in Model)
+                {
+                    <div class="col-md-4" style="margin:0px 0px 40px 0px">
+                        <a class="category-item" asp-controller="Home" asp-action="ProductsByCategory" asp-route-id=@item.Id>
+                            <img src=@Url.Content("~/Images/" + item.ImagePath)
+                                 asp-append-version="true"
+                                 height="400px" width="400px" /><strong class="category-item-title" style=" border-radius: 40px;">@item.CategoryName</strong>
+                        </a>
+                    </div>
+                }
+
+            </div>
+
+        </section>
+
+    </div>
+</div>

@@ -1,0 +1,92 @@
+﻿@model Project.Models.Customer
+@{
+    ViewData["Title"] = "Register";
+    Layout = "~/Views/Shared/_ProjectLayout.cshtml";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Form-v8 by Colorlib</title>
+    <!-- Mobile Specific Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <!-- Font-->
+    <link rel="stylesheet" type="text/css" href="~/LoginAndRegisterAssets/css/sourcesanspro-font.css">
+    <!-- Main Style Css -->
+    <link rel="stylesheet" href="~/LoginAndRegisterAssets/css/style.css" />
+</head>
+<body class="form-v8 ">
+    <section class="py-5 bg-light" style="margin-top: 30px;">
+
+    <div class="container">
+        <div class="row px-4 px-lg-5 py-lg-4 align-items-center">
+            <div class="col-lg-6">
+                <h1 class="h2 text-uppercase mb-0">Sign Up</h1>
+            </div>
+            <div class="col-lg-6 text-lg-end">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb justify-content-lg-end mb-0 px-0 bg-light">
+                        <li class="breadcrumb-item"><a class="text-dark" asp-controller="Home" asp-action="Index">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Sign Up</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+      <div class="page-content bg-light">
+
+        <div class="form-v8-content">
+            <div class="form-left">
+                <img width="618.5px" src="~/LoginAndRegisterAssets/images/logo2.png" alt="form">
+            </div>
+            <div class="form-right">
+                <div class="tab">
+                    <div class="tab-inner">
+                        <button class="tablinks" onclick="openCity(event, 'sign-up')" id="defaultOpen">Sign Up</button>
+                    </div>
+                </div>
+                <form enctype="multipart/form-data" asp-action="Register" class="form-detail" method="post">
+                    <div class="tabcontent" id="sign-up">
+                        <div class="form-row">
+                            <label for="Fname" class="form-row-inner">
+                                <input type="text" name="Fname" id="Fname" class="input-text" required placeholder="First Name">
+                            </label>
+                        </div>
+
+                        <div class="form-row">
+                            <label for="Lname" class="form-row-inner">
+                                <input type="text" name="Lname" id="Lname" class="input-text" required placeholder="Last Name">
+                            </label>
+                        </div>
+
+                        <div class="form-row">
+                            <label asp-for="ImageFile" class="form-row-inner">
+                                <input asp-for="ImageFile"class="input-text" required placehol">
+                            </label>
+                        </div>
+                        <div class="form-row">
+                            <label for="UserName" class="form-row-inner">
+                                <input type="email" name="UserName" id="UserName" class="input-text" required placeholder="E-Mail">
+                            </label>
+                        </div>
+                        <div class="form-row">
+                            <label for="Password" class="form-row-inner">
+                                <input type="password" name="Password" id="Password" class="input-text" required placeholder="Password">
+                            </label>
+                        </div>
+                        <div class="form-row-last">
+                                    <input type="submit" style=" border-radius: 40px;" name="register" class="register" value="Register">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+       </div>
+      </div>
+    </section>
+    <script type="text/javascript">
+    </script>
+</body><!-- This template was made by Colorlib (https://colorlib.com) -->
+</html>

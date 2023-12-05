@@ -1,0 +1,115 @@
+﻿@model Tuple<Customer, UserLogin>
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_ProjectLayout.cshtml";
+}
+
+
+
+
+
+
+<div class="container">
+
+    <section class="py-5 bg-light" style="margin-top:40px; margin-bottom:40px">
+        <div class="container">
+            <div class="row px-4 px-lg-5 py-lg-4 align-items-center">
+                <div class="col-lg-6">
+                    <h1 class="h2 text-uppercase mb-0">Edit Profile</h1>
+                </div>
+                <div class="col-lg-6 text-lg-end">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb justify-content-lg-end mb-0 px-0 bg-light">
+                            <li class="breadcrumb-item"><a class="text-dark" asp-controller="Home" asp-action="Index">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Edit Profile</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+
+
+    <div class="container">
+        <div class="row gy-3 bg-light justify-content-center" style="margin-bottom: 20px; line-height: 2; padding: 30px 150px 30px 150px;">
+            <div class="col-lg-12">
+                <hr />
+                <h4 style="margin-bottom: 40px;">Change Your Information</h4>
+                <form asp-controller="UserLogins" asp-action="Edit" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="@Model.Item2.Id" name="id" />
+                    <div class="row" style="margin-bottom: 20px;">
+                        <div class="col-md-6 form-group">
+                            <input asp-for="@Model.Item2.UserName" name="UserName" class="form-control" style="border-radius: 20px;" />
+                            <span asp-validation-for="@Model.Item2.UserName" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-bottom: 20px;">
+                        <div class="col-md-6 form-group">
+                            <input asp-for="@Model.Item2.Password" name="Password" type="password"  class="form-control" style="border-radius: 20px;" />
+                            <span asp-validation-for="@Model.Item2.Password" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <input type="submit" style="border-radius: 40px;" class="btn btn-dark" value="Save" />
+                            <span class="submitting"></span>
+                        </div>
+                    </div>
+                </form>
+                <hr />
+                <h4 style="margin-bottom: 40px;">Change Your Name</h4>
+
+                <form asp-controller="Customers" asp-action="ChangeName" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="@Model.Item1.Id" name="id" />
+
+                    <div class="row" style="margin-bottom: 20px;">
+                        <div class="col-md-6 form-group">
+                            <input asp-for="@Model.Item1.Fname" name="Fname" class="form-control" placeholder="First Name" style="border-radius: 20px;" />
+                            <span asp-validation-for="@Model.Item1.Fname" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-bottom: 20px;">
+                        <div class="col-md-6 form-group">
+                            <input asp-for="@Model.Item1.Lname" name="Lname" class="form-control" placeholder="Last Name" style="border-radius: 20px;" />
+                            <span asp-validation-for="@Model.Item1.Lname" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="row" style="margin-bottom: 30px; margin-top: 40px;">
+                        <div class="col-12">
+                            <input type="submit" style="border-radius: 40px;" class="btn btn-dark" value="Edit your name" />
+                            <span class="submitting"></span>
+                        </div>
+                    </div>
+                </form>
+
+                   <hr />
+                <h4 style="margin-bottom: 40px;">Change Your Photo</h4>
+                <form enctype="multipart/form-data" asp-controller="Customers" asp-action="ChangePhoto" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="@Model.Item1.Id" name="id"/>
+                    <div class="row" style="margin-bottom: 20px;">
+                        <div class="col-md-6 form-group">
+                            <input asp-for="@Model.Item1.ImageFile" name="ImageFile" type="file" class="form-control" style="border-radius: 20px;" />
+                            <span asp-validation-for="@Model.Item1.ImageFile" class="text-danger"></span>
+                        </div>
+                    </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <input type="submit" style="border-radius: 40px;" class="btn btn-dark" value="Save Photo" />
+                                <span class="submitting"></span>
+                            </div>
+                        </div>
+                    </form>
+               
+            </div>
+        </div>
+
+    </div>
+
+</div>

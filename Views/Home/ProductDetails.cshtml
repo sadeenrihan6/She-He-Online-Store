@@ -1,0 +1,245 @@
+﻿@model Tuple<IEnumerable<Product>,  IEnumerable<Product>,  IEnumerable<ReviewJoin>>
+@{
+    ViewData["Title"] = "ProductDetails";
+    Layout = "~/Views/Shared/_ProjectLayout.cshtml";
+    int? userIdCheck = Context.Request.HttpContext.Session.GetInt32("UserId");
+
+    
+}
+
+<div class="container">
+
+    <section class="py-5 bg-light" style="margin-top:40px; margin-bottom:40px">
+        
+            <div class="row px-4 px-lg-5 py-lg-4 align-items-center">
+                <div class="col-lg-6">
+                    <h1 class="h2 text-uppercase mb-0">Product Details</h1>
+                </div>
+                <div class="col-lg-6 text-lg-end">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb justify-content-lg-end mb-0 px-0 bg-light">
+                            <li class="breadcrumb-item"><a class="text-dark" asp-controller="Home" asp-action="Index">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Product Details</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+
+    </section>
+
+    <!--Prrrrrrooooooooddddddddducttt-->
+    <section class="py-5">
+        <div class="container">
+            @foreach (var item in Model.Item2)
+            {
+            <div class="row mb-5">
+                <div class="col-lg-6">
+                    <!-- PRODUCT SLIDER-->
+                    <div class="row m-sm-0">
+                       
+                        <div class="col-sm-10 order-1 order-sm-2">
+                            <div class="swiper product-slider">
+                                <div class="swiper-wrapper">
+                                    <div class="swiper-slide h-auto">
+                                            <img src=@Url.Content("~/Images/" + item.ImagePath)
+                                                 asp-append-version="true"
+                                                 height="490px" width="490px" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- PRODUCT DETAILS-->
+                <div class="col-lg-6">
+                        @if (ViewBag.reviewsAvg != null)
+                        {
+                            @for (int i = 1; i <= ViewBag.reviewsAvg; i++)
+                            {
+                                <div class="star d-inline">
+                                    <i class="fas fa-star stars" style="color: goldenrod; font-size: 15px"></i>
+                                </div>
+                            }
+                            @for (int i = (int)ViewBag.reviewsAvg + 1; i <= 5; i++)
+                            {
+                                <div class="star d-inline">
+                                    <i class="fas fa-star stars" style="font-size: 15px"></i>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            @for (int i = 1; i <= 5; i++)
+                            {
+                                <div class="star d-inline">
+                                    <i class="fas fa-star stars" style="font-size: 15px"></i>
+                                </div>
+                            }
+                        }
+
+                    <h2 style="margin: 20px 0px 20px 0px">@item.Name</h2>
+                        <h4 class="lead" style="margin: 0px 0px 20px 0px"><strong>@item.Price JOD</strong></h4>
+                        @if (item.Quantityinstock == 0)
+                        {
+                            <h6 class="text-md" style="margin: 0px 0px 20px 0px; color: red;"><strong>Out Of Stock</strong></h6>
+                        }
+                        else if (item.Quantityinstock <= 10)
+                        {
+                            <h6 class="text-md text-warning" style="margin: 0px 0px 20px 0px; "><strong>Only @item.Quantityinstock left !!</strong></h6>
+                        }
+                        else if (item.Quantityinstock >= 10)
+                        {
+                            <h6 class="text-md" style="margin: 0px 0px 20px 0px; color: #633b70;"><strong>In Stock</strong></h6>
+                        }
+                        <h5 class="text-sm mb-4" style="margin: 0px 0px 20px 0px">@item.ProductDescription</h5>
+                    <div class="row align-items-stretch mb-4" >
+                            @if(item.Quantityinstock == 0)
+                            {
+                                <div class="col-sm-3 pl-sm-0"><button disabled class="btn btn-dark btn-sm btn-block h-100 d-flex align-items-center justify-content-center px-0" style=" border-radius: 40px; width: 140px" >Add to cart</button></div>
+                            }
+                            else
+                            {
+                            <div class="col-sm-3 pl-sm-0"><a class="btn btn-dark btn-sm btn-block h-100 d-flex align-items-center justify-content-center px-0" style=" border-radius: 40px;" asp-controller="Home" asp-action="ShoppingCart" asp-route-id=@item.Id>Add to cart</a></div>
+                            }
+                            
+                    </div>
+                        @if (userIdCheck != null)
+                        {
+                            @if (@ViewBag.check)
+                            {
+                                <a class="text-dark p-0 mb-4 d-inline-block" asp-controller="Home" asp-action="RemoveFromWishlist" asp-route-id=@item.Id><i class="fas fa-heart me-2"></i>Remove from Wishlist</a>
+                                <br>
+                            }
+                            else
+                            {
+                                <a class="text-dark p-0 mb-4 d-inline-block" asp-controller="Home" asp-action="WishList" asp-route-id=@item.Id><i class="far fa-heart me-2"></i>Add to Wishlist</a>
+                                <br>
+                            }
+
+                        }
+                        else
+                        {
+                            <a class="text-dark p-0 mb-4 d-inline-block" asp-controller="Home" asp-action="WishList" asp-route-id=@item.Id><i class="far fa-heart me-2"></i>Add to Wishlist</a>
+
+                            <br>
+                        }
+
+                </div>
+            </div>
+            <!-- DETAILS TABS-->
+            <ul class="nav nav-tabs border-0" id="myTab" role="tablist">
+                    <li class="nav-item"><a class="nav-link text-uppercase active" id="description-tab" style=" border-radius: 40px;" data-bs-toggle="tab" href="#description" role="tab" aria-controls="description" aria-selected="true">Description</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link text-uppercase" id="reviews-tab" data-bs-toggle="tab" style="border-radius: 40px;" href="#reviews" role="tab" aria-controls="reviews" aria-selected="false">
+                            Reviews (@ViewBag.reviewsCount)
+                        </a>
+                    </li>
+
+            </ul>
+            <div class="tab-content mb-5" id="myTabContent">
+                    <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="description-tab">
+                    <div class="p-4 p-lg-5 bg-white" >
+                        <h5 class="text-uppercase" >Product description </h5>
+                            <h6 class="text-muted">@item.ProductDescription</h6>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
+                    <div class="p-4 p-lg-5 bg-white">
+                        <div class="row">
+                            <div class="col-lg-8">
+                                    @foreach (var review in Model.Item3)
+                                    {
+                                <div class="d-flex mb-3">
+                                        
+                                    <div class="flex-shrink-0">
+                                                <img class="rounded-circle" src=@Url.Content("~/Images/" + review.Customer.ImagePath)
+                                                     asp-append-version="true" style="border-radius: 20%;"
+                                                     alt="" width="50" height="50" />
+                                    </div>
+                                    
+                                    <div class="ms-3 flex-shrink-1">
+                                                <h6 class="mb-0 text-uppercase">@review.Customer.Fname @review.Customer.Lname</h6>
+                                                <p class="small text-muted mb-0 text-uppercase">@String.Format("{0:dd/MM/yyyy}", review.Review.ReviewDate)</p>
+
+                                                @for (decimal i = 1; i <= review.Review.Stars; i++)
+                                                {
+                                                    <div class="star d-inline"><i class="fas fa-star stars" style="color: goldenrod; font-size: 12px"></i></div>
+                                                }
+                                                @for (decimal i = Convert.ToDecimal(review.Review.Stars) + 1; i <= 5; i++)
+                                                {
+                                                    <div class="star d-inline"><i class="fas fa-star stars" style=" font-size: 12px"></i></div>
+                                                }
+                                                <h6 ass="text-sm mb-0 text-muted">@review.Review.ReviewText</h6>
+                                    </div>
+                                    
+                                </div>
+                                }
+                                @*<div class="d-flex">
+                                    <div class="flex-shrink-0"><img class="rounded-circle" src="img/customer-2.png" alt="" width="50" /></div>
+                                    <div class="ms-3 flex-shrink-1">
+                                        <h6 class="mb-0 text-uppercase">Jane Doe</h6>
+                                        <p class="small text-muted mb-0 text-uppercase">20 May 2020</p>
+                                        <ul class="list-inline mb-1 text-xs">
+                                            <li class="list-inline-item m-0"><i class="fas fa-star text-warning"></i></li>
+                                            <li class="list-inline-item m-0"><i class="fas fa-star text-warning"></i></li>
+                                            <li class="list-inline-item m-0"><i class="fas fa-star text-warning"></i></li>
+                                            <li class="list-inline-item m-0"><i class="fas fa-star text-warning"></i></li>
+                                            <li class="list-inline-item m-0"><i class="fas fa-star-half-alt text-warning"></i></li>
+                                        </ul>
+                                        <p class="text-sm mb-0 text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                                    </div>
+                                </div>*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- RELATED PRODUCTS-->
+            <h2 class="h5 text-uppercase mb-4">Related products</h2>
+            <div class="row">
+                 @foreach (var product in Model.Item1)
+                {
+                <!-- PRODUCT-->
+                <div class="col-lg-4 col-sm-6">
+                    <div class="product text-center skel-loader">
+                        <div class="d-block mb-3 position-relative">
+                                    <img src=@Url.Content("~/Images/" + product.ImagePath)
+                                         asp-append-version="true"
+                                         height="300px" width="300px" />
+                            <div class="product-overlay">
+                                <ul class="mb-0 list-inline">
+                                           
+                                                <li class="list-inline-item m-0 p-0"><a class="btn btn-sm btn-outline-dark" style="border-radius: 40px;" asp-controller="Home" asp-action="WishList" asp-route-id="@product.Id"><i class="far fa-heart"></i></a></li>
+                                           
+
+
+
+                                            
+                                            @if (product.Quantityinstock == 0)
+                                            {
+                                                <li class="list-inline-item m-0 p-0"><button disabled class="btn btn-sm btn-dark" style=" border-radius: 40px;">Add to cart</button></li>
+                                            }
+                                            else
+                                            {
+                                            <li class="list-inline-item m-0 p-0"><a class="btn btn-sm btn-dark" style=" border-radius: 40px;" asp-controller="Home" asp-action="ShoppingCart" asp-route-id=@product.Id>Add to cart</a></li>
+                                            }
+                                            <li class="list-inline-item mr-0"><a class="btn btn-sm btn-outline-dark" style=" border-radius: 40px;" asp-controller="Home" asp-action="productDetails" asp-route-id=@product.Id><i class="fas fa-expand"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                                <h6>@product.Name</h6>
+                                <p class="small text-muted">@product.Price JOD</p>
+                    </div>
+                </div>
+                }
+            </div>
+            }
+        </div>
+        
+    </section>
+
+
+
+
+    </div>
+

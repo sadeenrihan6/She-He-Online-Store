@@ -1,0 +1,240 @@
+﻿@model IEnumerable<TestimonialsJoin>
+@{
+    ViewData["Title"] = "Home Page";
+    Layout = "~/Views/Shared/_ProjectLayout.cshtml";
+    using (Html.BeginForm(new { ReturnUrl = Context.Request.Query["ReturnUrl"] }))
+}
+<head>
+    <style>
+        .testimonial-slider {
+            width: 80%;
+            max-width: 800px;
+            max-height: 220px;
+            margin: 0 auto;
+            overflow: hidden;
+            position: relative;
+        }
+
+            .testimonial-slider ul.slides {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+            }
+
+        .testimonial {
+            display: none;
+            padding: 40px;
+        }
+
+            .testimonial p {
+                font-size: 16px;
+                line-height: 1.6;
+                text-align: justify
+            }
+
+        .testimonial-author {
+            text-align: end;
+            margin-top: 10px;
+        }
+
+        #prevBtn, #nextBtn {
+            color: lightgray;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            font-size: 40px;
+            position: center;
+           
+        }
+
+            #prevBtn:hover, #nextBtn:hover {
+                color: #555;
+            }
+
+    </style>
+</head>
+
+<div class="container">
+
+    <div class="bg-light" style="margin: 60px 0px 0px 0px;">
+        <div class="testimonial-slider">
+            <ul class="slides">
+                @foreach (var testimonial in Model)
+                {
+                    <li class="testimonial">
+                        <div class="row ">
+                            <img class="mr-3 col-lg-2 col-md-3 col-sm-12" src="@Url.Content("~/Images/" + testimonial.Customer.ImagePath)"
+                                 asp-append-version="true" style="border-radius: 50%;" height="100px;" width="100"/>
+                            <div class="media-body col-lg-9 col-md-8 col-sm-12 offset-lg-1 offset-md-0">
+                                <div class="testimonial-content">
+                                    <p class="text-uppercase mb-1">@testimonial.Testimonial.TestimonialsText</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="testimonial-author row">
+                            <h6 class="h6 text-uppercase mb-4">-@testimonial.Customer.Fname @testimonial.Customer.Lname</h6>
+                        </div>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+    <center style="margin: 20px 0px 0px 0px;">
+        <a id="prevBtn"><i class="fas fa-angle-left fa-md"></i></a>
+        <a id="nextBtn"><i class="fas fa-angle-right fa-md"></i></a>
+    </center>
+
+
+    
+    <section class="py-5 bg-light" style="margin:40px 0px 0px 0px">
+        <div class="container">
+            <div class="row text-center gy-3">
+                <div class="col-lg-4">
+                    <div class="d-inline-block">
+                        <div class="d-flex align-items-end">
+                            <svg class="svg-icon svg-icon-big svg-icon-light">
+                                <use xlink:href="#delivery-time-1"> </use>
+                            </svg>
+                            <div class="text-start ms-3">
+                                <h6 class="text-uppercase mb-1">Free shipping</h6>
+                                <p class="text-sm mb-0 text-muted">Orders Above 100 JOD</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="d-inline-block">
+                        <div class="d-flex align-items-end">
+                            <svg class="svg-icon svg-icon-big svg-icon-light">
+                                <use xlink:href="#helpline-24h-1"> </use>
+                            </svg>
+                            <div class="text-start ms-3">
+                                <h6 class="text-uppercase mb-1">24 x 7 service</h6>
+                                <p class="text-sm mb-0 text-muted">Customer Services</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="d-inline-block">
+                        <div class="d-flex align-items-end">
+                            <svg class="svg-icon svg-icon-big svg-icon-light">
+                                <use xlink:href="#label-tag-1"> </use>
+                            </svg>
+                            <div class="text-start ms-3">
+                                <h6 class="text-uppercase mb-1">Festivaloffers</h6>
+                                <p class="text-sm mb-0 text-muted">Discount Coupons</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="row">
+        <section class="pt-5" style="margin:0px 0px 40px 0px">
+                <header class="text-center">
+                    <p class="small text-muted small text-uppercase mb-1">Carefully created collections</p>
+                    <h2 class="h5 text-uppercase mb-4">Browse our categories</h2>
+                </header>
+            <div class="row">
+                <div class="col-md-4" style="margin:0px 0px 40px 0px">
+                    <a class="category-item" asp-controller="Home" asp-action="Shop">
+                        <img src="~/Images/bags&watches.jpg"
+                             asp-append-version="true"
+                             height="400px" width="400px" /><strong class="category-item-title" style=" border-radius: 40px;">All Products</strong>
+                    </a>
+                </div>
+                @foreach (var item in @ViewBag.Categories)
+                {
+                    <div class="col-md-4" style="margin:0px 0px 40px 0px">
+                        <a class="category-item" asp-controller="Home" asp-action="childCategories" asp-route-id=@item.Id>
+                            <img src=@Url.Content("~/Images/" + item.ImagePath)
+                                 asp-append-version="true"
+                                 height="400px" width="400px" /><strong class="category-item-title" style=" border-radius: 40px;">@item.CategoryName</strong>
+                        </a>
+                    </div>
+                }
+                
+            </div>
+                
+            </section>
+       
+    </div>
+    <div class="row gy-3 bg-light justify-content-center" style="margin-bottom:60px; line-height: 2; padding: 30px 150px 30px 150px;">
+        <h4>Contact Us</h4>
+        <div class="col-lg-12">
+            
+            @if (TempData["Message"] == null)
+            {
+
+
+
+                <form asp-controller="Home" asp-action="ContactUs" method="post" style="padding-top:20px;">
+                    <div class="row" style="margin-bottom: 20px;">
+                        <div class="col-md-6 form-group">
+                            <input name="SenderName" class="form-control" placeholder="Your name" style="border-radius: 20px;" />
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <input name="Sender" class="form-control" placeholder="Email" style="border-radius: 20px;" />
+                        </div>
+                    </div>
+                    <div class="row" style="margin-bottom: 20px;">
+                        <div class="col-md-12 form-group">
+                            <textarea name="Message" class="form-control" cols="30" rows="2" placeholder="Write your message" style="border-radius: 50px;"></textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <input type="submit" style="border-radius: 40px;" class="btn btn-dark" value="Send Message" />
+                            <span class="submitting"></span>
+                        </div>
+                    </div>
+                </form>
+            }
+            else
+            {
+                <div class="alert alert-success" style="">
+                    @TempData["Message"]
+                </div>
+            }
+        </div>
+    </div>
+
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // Set the initial slide
+        var slideIndex = 0;
+        var slides = $(".testimonial");
+        var numberOfSlides = slides.length;
+
+        // Function to show a specific slide
+        function showSlide(index) {
+            slides.hide();
+            slides.eq(index).fadeIn();
+        }
+
+        // Previous and Next buttons
+        $("#prevBtn").click(function () {
+            slideIndex = (slideIndex - 1 + numberOfSlides) % numberOfSlides;
+            showSlide(slideIndex);
+        });
+
+        $("#nextBtn").click(function () {
+            slideIndex = (slideIndex + 1) % numberOfSlides;
+            showSlide(slideIndex);
+        });
+
+        // Function to change the slide every 5 seconds
+        function changeSlide() {
+            slideIndex = (slideIndex + 1) % numberOfSlides;
+            showSlide(slideIndex);
+        }
+
+        // Autoplay the slider
+        var interval = setInterval(changeSlide, 6000); // Change slide every 6 seconds
+    });
+</script>

@@ -1,0 +1,292 @@
+﻿@{
+    string? userIdCheck = Context.Request.HttpContext.Session.GetString("UserName");
+    int? userIdCheck2 = Context.Request.HttpContext.Session.GetInt32("UserId");
+
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+
+    <style>
+        .d-inline {
+            display: inline;
+        }
+
+        .star {
+            cursor: pointer;
+            font-size: 20px;
+        }
+
+            .star.selected {
+                color: goldenrod;
+            }
+    </style>
+
+
+    <meta name="viewport" content="width=device-width" />
+ 
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>She & He Store</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="all,follow">
+        <!-- gLightbox gallery-->
+        <link rel="stylesheet" href="~/vendor/glightbox/css/glightbox.min.css">
+        <!-- Range slider-->
+        <link rel="stylesheet" href="~/vendor/nouislider/nouislider.min.css">
+        <!-- Choices CSS-->
+        <link rel="stylesheet" href="~/vendor/choices.js/public/assets/styles/choices.min.css">
+        <!-- Swiper slider-->
+    <link rel="stylesheet" href="~/vendor/swiper/swiper-bundle.min.css">
+        <!-- Google fonts-->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@300;400;700&amp;display=swap">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Martel+Sans:wght@300;400;800&amp;display=swap">
+        <!-- theme stylesheet-->
+    <link rel="stylesheet" href="~/css/style.violet.css" id="theme-stylesheet">
+        <!-- Custom stylesheet - for your changes-->
+    <link rel="stylesheet" href="~/css/custom.css">
+        <!-- Favicon-->
+    <link rel="shortcut icon" href="~/Images/logos&h.png">
+    <link rel="shortcut icon" href="~/images/logos&h.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+
+
+   
+
+   @* <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.getElementById('addToWishlist').addEventListener('click', function (event) {
+                event.preventDefault(); // Prevent the default navigation behavior
+
+                var productId = this.getAttribute('data-product-id');
+
+                // Make an AJAX request to the WishList action
+                $.ajax({
+                    url: '/Home/WishList/' + productId,
+                    method: 'GET',
+                    success: function (data) {
+                        if (data.success) {
+                            // Show a success message
+                            alert('Item has been added to your wishlist.');
+                        } else {
+                            // Show an error message
+                            alert(data.message);
+                        }
+                    },
+                    error: function () {
+                        // Handle AJAX error if necessary
+                    }
+                });
+            });
+        });
+    </script>*@
+
+
+    </head>
+<body>
+    <header class="header bg-white" style="margin-top:20px;">
+        <div class="container px-lg-3">
+
+            <nav class="navbar navbar-expand-lg navbar-light py-3 px-lg-0">
+
+               
+                <a class="navbar-brand" asp-controller="Home" asp-action="Index">
+                    <span class="fw-bold text-uppercase text-dark">
+                        <img width="75px" src="~/images/sh2.png" /><span>  </span>She & He Store
+                    </span>
+                </a>
+                
+                <button class="navbar-toggler navbar-toggler-end" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                
+                <div class="collapse navbar-collapse" id="navbarSupportedContent" >
+                    <ul class="navbar-nav me-auto" style="position:relative; right: -20px">
+                       
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" id="pagesDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Categories</a>
+                            <div class="dropdown-menu mt-3 shadow-sm" aria-labelledby="pagesDropdown">
+                                <a class="dropdown-item border-0 transition-link" asp-controller="Home" asp-action="Shop" asp-route-choice="All Products">All Categories</a>
+                                <a class="dropdown-item border-0 transition-link" asp-controller="Home" asp-action="childCategories" asp-route-id=1>Bags</a>
+                                <a class="dropdown-item border-0 transition-link" asp-controller="Home" asp-action="childCategories" asp-route-id=2>Watches</a>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <!-- Link--><a class="nav-link" asp-controller="Home" asp-action="Coupon">Coupons</a>
+                        </li>
+                        <li>
+                            <form asp-controller="Home" asp-action="Shop" method="post">
+                                <div class="input-group">
+                                    <div class="form-outline">
+                                        <input name="searchString" type="search" id="searchS" class="form-control" placeholder="Search" style="border-top-left-radius: 20px; border-bottom-left-radius: 20px;" />
+                                    </div>
+                                    <button type="submit" class="btn btn-primary" style="border-top-right-radius: 20px; border-bottom-right-radius: 20px;">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                </div>
+                            </form>
+
+
+
+                        </li>
+                        
+                    </ul>
+                   
+                    
+                        
+                        @if (userIdCheck != null)
+                        {
+                        <ul class="navbar-nav ms-auto" style="position:relative; left: -75px;">
+                            <li class="nav-item" style="position:relative; bottom: -15px"><a class="nav-link" asp-controller="Home" asp-action="WishList"> <i class="far fa-heart me-1"></i>Wishlist (@ViewBag.wishlistItems)</a></li>
+                            <li class="nav-item" style="position:relative; bottom: -15px"><a class="nav-link" asp-controller="Home" asp-action="ShoppingCart"> <i class="fas fa-dolly-flatbed me-1"></i>Shopping Cart (@ViewBag.cartItems)</a></li>
+
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" id="pagesDropdown"  data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <img  src=@Url.Content("~/Images/" + ViewBag.Customer?.ImagePath)
+                                                    asp-append-version="true" style="border-radius: 50%;"
+                                                     height="50px" />
+                                </a>
+                                <div class="dropdown-menu mt-3 shadow-sm" aria-labelledby="pagesDropdown">
+                                    <a class="dropdown-item border-0 transition-link" asp-controller="Customers" asp-action="Edit" asp-route-id="@userIdCheck2">Edit Profile</a>
+                                    <a class="dropdown-item border-0 transition-link" asp-controller="Home" asp-action="MyOrders" >My Orders</a>
+                                    <a class="dropdown-item border-0 transition-link" asp-controller="Home" asp-action="Testimonial">Testimonial</a>
+                                    <a class="dropdown-item border-0 transition-link" asp-controller="LoginAndRegister" asp-action="Logout">Log Out</a>
+                                </div>
+                            </li>
+                        </ul>
+                        }
+                        else
+                            {
+                            <ul class="navbar-nav ms-auto" style="position:relative; left: -40px;">
+                            <li class="nav-item"><a class="nav-link" asp-controller="LoginAndRegister" asp-action="Login">Login</a></li>
+                            <li class="nav-item nav-link">|</li>
+                            <li class="nav-item"><a class="nav-link" asp-controller="LoginAndRegister" asp-action="Register">Sign Up</a></li>
+                            </ul>
+                            }
+                    
+                </div>
+            </nav>
+        </div>
+
+    </header>
+
+    <div>
+        @RenderBody()
+    </div>
+    <footer class="bg-dark text-white">
+        <div class="container py-4">
+          <div class="row py-5">
+            <div class="col-md-4 mb-3 mb-md-0">
+              <h6 class="text-uppercase mb-3">Customer services</h6>
+              <ul class="list-unstyled mb-0">
+                <li><a class="footer-link" asp-controller="Home" asp-action="ContactUs">Help &amp; Contact Us</a></li>
+                @if(userIdCheck != null)
+                        {
+                            <li><a class="footer-link" asp-controller="Home" asp-action="Testimonial">Testimonial</a></li>
+                        }
+
+                        <li><a asp-action="TermsAndConditions" class="footer-link">Terms &amp; Conditions</a></li>
+              </ul>
+            </div>
+            <div class="col-md-4 mb-3 mb-md-0">
+              <h6 class="text-uppercase mb-3">Company</h6>
+              <ul class="list-unstyled mb-0">
+                        <li><a class="footer-link" asp-controller="Home" asp-action="AboutUs">About Us</a></li>
+                        <li><a class="footer-link" asp-controller="Home" asp-action="AvailableServices">Available Services</a></li>
+                        <li><a class="footer-link" asp-controller="Home" asp-action="FAndQ">FAQs</a></li>
+              </ul>
+            </div>
+            <div class="col-md-4">
+              <h6 class="text-uppercase mb-3">Social media</h6>
+              <ul class="list-unstyled mb-0">
+                        <li><a class="footer-link" href="https://twitter.com/itssdr6?mibextid=2JQ9oc">Twitter</a></li>
+                        <li><a class="footer-link" href="https://instagram.com/sadeen.rihan?igshid=MWQ4d2NlbmllMjdlOQ%3D%3D&utm_source=qr">Instagram</a></li>
+
+                        <li><a class="footer-link" href="https://www.facebook.com/sadeenn12?mibextid=2JQ9oc">Facebook</a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="border-top pt-4" style="border-color: #1d1d1d !important">
+            <div class="row">
+              <div class="col-md-6 text-center text-md-start">
+                <p class="small text-muted mb-0">&copy; 2021 All rights reserved.</p>
+              </div>
+              <div class="col-md-6 text-center text-md-end">
+                <p class="small text-muted mb-0">Template designed by <a class="text-white reset-anchor" href="https://bootstrapious.com/p/boutique-bootstrap-e-commerce-template">Bootstrapious</a></p>
+                <!-- If you want to remove the backlink, please purchase the Attribution-Free License. See details in readme.txt or license.txt. Thanks!-->
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
+      <!-- JavaScript files-->
+    <script src="~/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/vendor/glightbox/js/glightbox.min.js"></script>
+    <script src="~/vendor/nouislider/nouislider.min.js"></script>
+    <script src="~/vendor/swiper/swiper-bundle.min.js"></script>
+    <script src="~/vendor/choices.js/public/assets/scripts/choices.min.js"></script>
+    <script src="~/js/front.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+      <script>
+
+        // ------------------------------------------------------- //
+        //   Inject SVG Sprite - 
+        //   see more here 
+        //   https://css-tricks.com/ajaxing-svg-sprite/
+        // ------------------------------------------------------ //
+        function injectSvgSprite(path) {
+        
+            var ajax = new XMLHttpRequest();
+            ajax.open("GET", path, true);
+            ajax.send();
+            ajax.onload = function(e) {
+            var div = document.createElement("div");
+            div.className = 'd-none';
+            div.innerHTML = ajax.responseText;
+            document.body.insertBefore(div, document.body.childNodes[0]);
+            }
+        }
+        // this is set to BootstrapTemple website as you cannot 
+        // inject local SVG sprite (using only 'icons/orion-svg-sprite.svg' path)
+        // while using file:// protocol
+        // pls don't forget to change to your domain :)
+        injectSvgSprite('https://bootstraptemple.com/files/icons/orion-svg-sprite.svg'); 
+        
+      </script>
+
+      <!-- FontAwesome CSS - loading as last, so it doesn't block rendering-->
+      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+
+
+
+
+    <script>
+        document.getElementById("priceFilter").addEventListener("change", function () {
+            this.form.submit();
+        });
+    </script>
+    
+    <script>
+        $(".star").on('click', function () {
+            $("#stars").val(this.id); 
+            $(".star").removeClass("selected");
+            $(this).prevAll().addBack().addClass("selected");
+        });
+    </script>
+
+   
+
+
+
+   
+    
+</body>
+</html>

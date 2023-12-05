@@ -1,0 +1,77 @@
+﻿@model ContactFormModel
+@{
+    ViewData["Title"] = "ContactUs";
+    Layout = "~/Views/Shared/_ProjectLayout.cshtml";
+}
+
+
+<div class="container">
+
+    <section class="py-5 bg-light" style="margin-top:40px; margin-bottom:40px">
+        <div class="container">
+            <div class="row px-4 px-lg-5 py-lg-4 align-items-center">
+                <div class="col-lg-6">
+                    <h1 class="h2 text-uppercase mb-0">Contact Us</h1>
+                </div>
+                <div class="col-lg-6 text-lg-end">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb justify-content-lg-end mb-0 px-0 bg-light">
+                            <li class="breadcrumb-item"><a class="text-dark" asp-controller="Home" asp-action="Index">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Contact Us</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    
+
+            <div class="container">
+        <div class="row gy-3 bg-light justify-content-center" style="margin-bottom: 20px; line-height: 2; padding: 30px 150px 30px 150px;">
+            <div class="col-lg-12">
+        <h4>She & He Online Store</h4>
+        <p style="text-align:justify; margin-top: 30px; margin-bottom: 30px;">
+            Your ultimate destination for exquisite watches and fashionable bags. Whether you have a question about our latest collections, need assistance with an order, or simply want to chat about your passion for style, our dedicated team is here to assist you. When you place an order with us, we ensure a seamless and secure shopping experience from selection to delivery. Reach out to us using the contact form below, and let's embark on a journey of elegance and quality together. Your satisfaction is our top priority, and we can't wait to hear from you.
+        </p>
+                @if (TempData["Message"] == null)
+                {
+                    
+
+                    
+                    <form asp-controller="Home" asp-action="ContactUs" method="post">
+                                <div class="row" style="margin-bottom: 20px;">
+                                    <div class="col-md-6 form-group">
+                                        <input name="SenderName" class="form-control" placeholder="Your name" style="border-radius: 20px;" />
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <input name="Sender" class="form-control" placeholder="Email" style="border-radius: 20px;" />
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-bottom: 20px;">
+                                    <div class="col-md-12 form-group">
+                                        <textarea name="Message" class="form-control" cols="30" rows="2" placeholder="Write your message" style="border-radius: 50px;"></textarea>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <input type="submit" style="border-radius: 40px;" class="btn btn-dark" value="Send Message" />
+                                        <span class="submitting"></span>
+                                    </div>
+                                </div>
+                            </form>
+                }
+                else
+                {
+                    <div class="alert alert-success" style="">
+                        @TempData["Message"]
+                    </div>
+                }
+                        </div>
+                    </div>
+               
+            </div>
+   
+</div>
+

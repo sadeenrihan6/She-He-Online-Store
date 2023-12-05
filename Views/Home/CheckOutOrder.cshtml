@@ -1,0 +1,174 @@
+﻿@model Tuple<IEnumerable<Product>,  IEnumerable<ShoppingCart>>
+@{
+    ViewData["Title"] = "CheckOutOrder";
+    Layout = "~/Views/Shared/_ProjectLayout.cshtml";
+}
+
+<div class="container">
+
+    <section class="py-5 bg-light" style="margin-top:40px; margin-bottom:40px">
+        <div class="container">
+            <div class="row px-4 px-lg-5 py-lg-4 align-items-center">
+                <div class="col-lg-6">
+                    <h1 class="h2 text-uppercase mb-0">Checkout</h1>
+                </div>
+                <div class="col-lg-6 text-lg-end">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb justify-content-lg-end mb-0 px-0 bg-light">
+                            <li class="breadcrumb-item"><a class="text-dark" asp-controller="Home" asp-action="Index">Home</a></li>
+                            <li class="breadcrumb-item"><a class="text-dark" asp-controller="Home" asp-action="ShoppingCart">Cart</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Checkout</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+
+
+    @if (TempData["CardNotFound"] == null)
+    {
+        @if (TempData["InsufficientFunds"] == null)
+        {
+
+            <section class="py-5">
+                <!-- BILLING ADDRESS-->
+                <h2 class="h5 text-uppercase mb-4">Billing details</h2>
+                <div class="row">
+                    <div class="col-lg-8">
+                        <form action="CustomerInformation" method="post">
+                            <div class="row gy-3">
+                                <input type="hidden" name="totalPrice" value="@ViewBag.totalPrice" />
+                                <input type="hidden" name="CouponCode" value="@ViewBag.CouponCode" />
+                                <div class="col-lg-6">
+                                    <label class="form-label text-sm text-uppercase" >First name </label>
+                                    <input class="form-control form-control-lg" type="text" style=" border-radius: 40px;" name="fName" placeholder="Enter your first name" required>
+                                </div>
+                                <div class="col-lg-6">
+                                    <label class="form-label text-sm text-uppercase" ">Last name </label>
+                                    <input class="form-control form-control-lg" type="text" style=" border-radius: 40px;" name="lName" placeholder="Enter your last name" required>
+                                    </div>
+                                    <div class="col-lg-6">
+                                    <label class="form-label text-sm text-uppercase" >Email address </label>
+                                    <input class="form-control form-control-lg" type="email" style=" border-radius: 40px;" name="email" placeholder="e.g. Jason@example.com" required>
+                                    </div>
+                                    <div class="col-lg-6">
+                                    <label class="form-label text-sm text-uppercase" >Phone number </label>
+                                    <input class="form-control form-control-lg" type="tel" style=" border-radius: 40px;" name="phoneNumber" placeholder="e.g. +0962 7xx xxxxxx" required>
+                                    </div>
+                                    <div class="col-lg-6">
+                                    <label class="form-label text-sm text-uppercase" >Address Line </label>
+                                    <input class="form-control form-control-lg" type="text" style=" border-radius: 40px;" name="addressLine" placeholder="Your address line" required>
+                                    </div>
+                                    <div class="col-lg-6 ">
+                                    <label class="form-label text-sm text-uppercase" ">City</label>
+
+                                    <select class="form-control form-control-lg" style=" border-radius: 40px;" name="city" data-customclass="form-control form-control-lg rounded-0">
+                                        <option style=" border-radius: 40px;" value="Amman">Amman</option>
+                                        <option value="Irbid">Irbid</option>
+                                        <option value="Zarqa">Zarqa</option>
+                                        <option value="Aqaba">Aqaba</option>
+                                        <option value="Madaba">Madaba</option>
+                                        <option value="Karak">Karak</option>
+                                        <option value="Tafilah">Tafilah</option>
+                                        <option value="Ma'an">Ma'an</option>
+                                        <option value="Jerash">Jerash</option>
+                                        <option value="As-Salt">As-Salt</option>
+                                        <option value="Ajloun">Ajloun</option>
+                                        <option value="Mafraq">Mafraq</option>
+                                    </select>
+
+                                </div>
+
+                                <div class="row gy-3">
+                                    <div class="col-12 mt-4">
+                                        <h2 class="h5 text-uppercase mb-4">Payment Details</h2>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <label class="form-label text-sm text-uppercase" >First name </label>
+                                        <input class="form-control form-control-lg" type="text" style=" border-radius: 40px;" name="cardFirstName" placeholder="Enter your first name" required>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <label class="form-label text-sm text-uppercase" >Last name </label>
+                                        <input class="form-control form-control-lg" type="text" style=" border-radius: 40px;" name="cardFLastName" placeholder="Enter your last name" required>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <label class="form-label text-sm text-uppercase" >Card Number </label>
+                                        <input class="form-control form-control-lg" type="text" style=" border-radius: 40px;" name="cardNumber" placeholder="Enter your card number" required maxlength="16">
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <label class="form-label text-sm text-uppercase" >Expiration Date (MMYY)</label>
+                                        <input class="form-control form-control-lg" type="text" style=" border-radius: 40px;" name="expirationDate" placeholder="e.g. 1224 mmyy" pattern="\d{2}\d{2}" required maxlength="4">
+                                    </div>
+
+                                    <div class="col-lg-6">
+                                        <label class="form-label text-sm text-uppercase" >CVV</label>
+                                        <input class="form-control form-control-lg" style=" border-radius: 40px;" type="text" name="cvv" placeholder="Enter your CVV" required maxlength="3" pattern="\d{3,4}">
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-12 form-group">
+                                    <button class="btn btn-dark" type="submit" style=" border-radius: 40px; width: 120px">Place order</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- ORDER SUMMARY-->
+                    <div class="col-lg-4">
+                        <div class="card border-0 rounded-0 p-lg-4 bg-light">
+                            <div class="card-body">
+                                <h5 class="text-uppercase mb-4">Your order</h5>
+                                <ul class="list-unstyled mb-0">
+                                    @foreach (var item in Model.Item2)
+                                    {
+                                        var product = Model.Item1.FirstOrDefault(p => p.Id == item.ProductId);
+
+                                        if (product != null)
+                                        {
+                                            <li class="d-flex align-items-center justify-content-between row">
+                                                <strong class="small fw-bold col-7">@product.Name</strong>
+                                                <span class="text-muted small col-3">@String.Format("{0:N}", item.Quantity * product.Price ) JOD</span>
+                                                <span class="text-muted small col-2">@Convert.ToInt32(item.Quantity)</span>
+                                            </li>
+                                            <li class="border-bottom my-2"></li>
+                                        }
+                                    }
+                                    <li class="d-flex align-items-center justify-content-between">
+                                        <strong class="text-uppercase small fw-bold">Delivery</strong>
+                                        <span>@ViewBag.delivery JOD</span>
+                                    </li>
+                                    <li class="border-bottom my-2"></li>
+
+                                    <li class="d-flex align-items-center justify-content-between">
+                                        <strong class="text-uppercase small fw-bold">Total</strong>
+                                        <span>@ViewBag.totalPrice JOD</span>
+                                    </li>
+                                    <li class="border-bottom my-2"></li>
+                                </ul>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        }
+        else
+        {
+            <section class="py-5">
+                <div class="alert alert-danger">
+                    @TempData["InsufficientFunds"]
+                </div>
+            </section>
+        }
+    }
+    else
+    {
+        <section class="py-5">
+            <div class="alert alert-danger">
+                @TempData["CardNotFound"]
+            </div>
+        </section>
+    }
+</div>
+

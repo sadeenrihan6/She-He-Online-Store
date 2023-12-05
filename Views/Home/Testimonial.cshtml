@@ -1,0 +1,78 @@
+﻿
+@{
+    ViewData["Title"] = "Testimonial";
+    Layout = "~/Views/Shared/_ProjectLayout.cshtml";
+    int? userIdCheck = Context.Request.HttpContext.Session.GetInt32("UserId");
+}
+
+
+
+
+
+<div class="container">
+
+    <section class="py-5 bg-light" style="margin-top:40px; margin-bottom:40px">
+        <div class="container">
+            <div class="row px-4 px-lg-5 py-lg-4 align-items-center">
+                <div class="col-lg-6">
+                    <h1 class="h2 text-uppercase mb-0">Testimonial</h1>
+                </div>
+                <div class="col-lg-6 text-lg-end">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb justify-content-lg-end mb-0 px-0 bg-light">
+                            <li class="breadcrumb-item"><a class="text-dark" asp-controller="Home" asp-action="Index">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Testimonial</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+
+
+    <div class="container">
+        <div class="row gy-3 bg-light justify-content-center" style="margin-bottom: 20px; line-height: 2; padding: 30px 150px 30px 150px;">
+            <div class="col-lg-12">
+                <h4>She & He Online Store</h4>
+                <p style="text-align:justify; margin-top: 30px; margin-bottom: 30px;">
+                    Your feedback is invaluable to us at She & He, your ultimate destination for exquisite watches and fashionable bags. Whether you've experienced our latest collections, placed an order, or simply want to share your passion for style, we're eager to hear from you. We're dedicated to providing you with the best shopping experience, from your selection to delivery. Please take a moment to share your thoughts with us through our Testimonial section, and let's continue our journey of elegance and quality together. Your satisfaction remains our top priority, and we look forward to receiving your testimonials.
+                </p>
+                @if (TempData["Message"] == null)
+                {
+
+
+
+                    <form asp-controller="Home" asp-action="Testimonial" method="post">
+                        <div class="row" style="margin-bottom: 20px;">
+                            <input type="hidden" asp-for="@userIdCheck" />
+                        </div>
+                        <div class="row" style="margin-bottom: 20px;">
+                            <div class="col-md-12 form-group">
+                                <textarea name="testimonialText" class="form-control" cols="30" rows="2" placeholder="Write your Feddback" style="border-radius: 50px;"></textarea>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <input type="submit" style="border-radius: 40px;" class="btn btn-dark" value="Send Feedback" />
+                                <span class="submitting"></span>
+                            </div>
+                        </div>
+                    </form>
+                }
+                else
+                {
+                    <div class="alert alert-success" style="">
+                        @TempData["Message"]
+                    </div>
+                }
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+

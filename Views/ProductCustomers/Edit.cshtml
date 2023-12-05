@@ -1,0 +1,47 @@
+﻿@model Project.Models.ProductCustomer
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1>Edit</h1>
+
+<h4>ProductCustomer</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+
+            <!-- Hidden fields (add the 'hidden' attribute) -->
+            <input type="hidden" asp-for="CustomerId" />
+            <input type="hidden" asp-for="Quantity" />
+            <input type="hidden" asp-for="OrderDate" />
+            <input type="hidden" asp-for="TotalPrice" />
+            <input type="hidden" asp-for="CouponCode" />
+            <input type="hidden" asp-for="AddressId" />
+
+            <!-- OrderStatus field -->
+            <div class="form-group">
+                <label asp-for="OrderStatus" class="control-label"></label>
+                <select asp-for="OrderStatus" asp-items="new SelectList(ViewBag.OrderStatusOptions)" class="form-control"></select>
+                <span asp-validation-for="OrderStatus" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Isemailsent" class="control-label"></label>
+                <select asp-for="Isemailsent" asp-items="new SelectList(ViewBag.IsemailsentOptions)" class="form-control"></select>
+                <span asp-validation-for="Isemailsent" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-secondary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index" style="color:gray; text-decoration:underline;">Back to List</a>
+</div>
